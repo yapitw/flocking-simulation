@@ -34,6 +34,7 @@ class Boid {
         this.acceleration.add(alignment)
         this.acceleration.add(cohesion)
         this.acceleration.add(separation)
+        this.acceleration.div(10)
     }
 
     align(boids) {
@@ -78,7 +79,7 @@ class Boid {
     }
 
     separation(boids) {
-        let perceptionRadius = 50
+        let perceptionRadius = 20
         let total = 0
         let steering = createVector()
         for (let other of boids) {
@@ -101,14 +102,24 @@ class Boid {
 
     update() {
         this.position.add(this.velocity)
+        this.velocity.mult(0.98)
         this.velocity.add(this.acceleration)
         this.velocity.limit(this.maxSpeed)
+        this.acceleration.set(0, 0)
         this.edges()
     }
 
     show() {
-        strokeWeight(8)
+        push()
+        noFill()
         stroke(255)
-        point(this.position.x, this.position.y)
+        translate(this.position.x, this.position.y)
+        rotate(atan2(this.velocity.y, this.velocity.x) + PI / 2)
+        beginShape()
+        vertex(0, -3)
+        vertex(3, 6)
+        vertex(-3, 6)
+        endShape(CLOSE)
+        pop()
     }
 }
