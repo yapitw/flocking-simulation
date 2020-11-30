@@ -18,4 +18,35 @@
         <script src="boid.js"></script>
         <script src="sketch.js"></script>
     </body>
+
+    <script>
+        // const generateMatrices = () => {
+        //     const matrix1 = []
+        //     const matrix2 = []
+        //     for (let y = 0; y < 512; y++) {
+        //         matrix1.push([])
+        //         matrix2.push([])
+        //         for (let x = 0; x < 512; x++) {
+        //             matrix1[y].push([0, 1, 2])
+        //             matrix2[y].push([0, 1, 2])
+        //         }
+        //     }
+        //     return { matrix1, matrix2 }
+        // }
+
+        // const gpu = new GPU()
+        // const multiplyMatrix = gpu
+        //     .createKernel(function (a, b) {
+        //         const [x, y, z] = a[this.thread.y][this.thread.x]
+        //         const [x1, y1, z1] = b[this.thread.y][this.thread.x]
+        //         const res = [x * x1, y * y1, z * z1]
+        //         return res
+        //     })
+        //     .setOutput([512, 512])
+
+        // const { matrix1, matrix2 } = generateMatrices()
+        // const matrix3 = multiplyMatrix(matrix1, matrix2)
+
+        // console.log(matrix3[2][2])
+    </script>
 </html>
