@@ -1,3 +1,4 @@
+var uid = new ShortUniqueId()
 class Boid {
     constructor() {
         this.position = createVector(random(width), random(height))
@@ -6,6 +7,7 @@ class Boid {
         this.acceleration = createVector()
         this.maxForce = 1
         this.maxSpeed = 4
+        this.id = uid()
     }
 
     edges() {
@@ -23,6 +25,7 @@ class Boid {
     }
 
     flock(boids) {
+        this.distMap = this.calcDistMap(boids)
         let alignment = this.align(boids)
         let cohesion = this.cohesion(boids)
         let separation = this.separation(boids)
@@ -37,12 +40,21 @@ class Boid {
         this.acceleration.div(10)
     }
 
+    calcDistMap(boids) {
+        const map = {}
+        for (let other of boids) {
+            let d = dist(this.position.x, this.position.y, other.position.x, other.position.y)
+            map[other.id] = d
+        }
+        return map
+    }
+
     align(boids) {
         let perceptionRadius = 100
         let total = 0
         let steering = createVector()
         for (let other of boids) {
-            let d = dist(this.position.x, this.position.y, other.position.x, other.position.y)
+            const d = this.distMap[other.id]
             if (other !== this && d < perceptionRadius) {
                 steering.add(other.velocity)
                 total++
@@ -62,7 +74,7 @@ class Boid {
         let total = 0
         let steering = createVector()
         for (let other of boids) {
-            let d = dist(this.position.x, this.position.y, other.position.x, other.position.y)
+            const d = this.distMap[other.id]
             if (other !== this && d < perceptionRadius) {
                 steering.add(other.position)
                 total++
@@ -83,7 +95,7 @@ class Boid {
         let total = 0
         let steering = createVector()
         for (let other of boids) {
-            let d = dist(this.position.x, this.position.y, other.position.x, other.position.y)
+            const d = this.distMap[other.id]
             if (other !== this && d < perceptionRadius) {
                 let diff = p5.Vector.sub(this.position, other.position)
                 diff.div(d * d)
@@ -102,7 +114,6 @@ class Boid {
 
     update() {
         this.position.add(this.velocity)
-        this.velocity.mult(0.98)
         this.velocity.add(this.acceleration)
         this.velocity.limit(this.maxSpeed)
         this.acceleration.set(0, 0)

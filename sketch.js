@@ -3,7 +3,7 @@ const flock = []
 let alignSlider, cohesionSlider, separationSlider
 
 function setup() {
-    createCanvas(640, 360)
+    createCanvas(800, 500)
 
     createSpan('Alignment')
     alignSlider = createSlider(0, 2, 1, 0.1)
@@ -11,7 +11,7 @@ function setup() {
     cohesionSlider = createSlider(0, 2, 1, 0.1)
     createSpan('Separation')
     separationSlider = createSlider(0, 2, 1, 0.1)
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 400; i++) {
         flock.push(new Boid())
     }
 }
