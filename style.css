@@ -7,3 +7,24 @@ body {
 canvas {
     display: block;
 }
+
+a {
+    color: inherit;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+p {
+    margin: 0 0 0.5rem 0;
+}
+
+.description {
+    color: white;
+    font-family: sans-serif;
+    position: absolute;
+    left: 2rem;
+    top: 2rem;
+}
