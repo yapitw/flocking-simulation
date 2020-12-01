@@ -2,7 +2,7 @@ const flock = []
 
 let alignSlider, cohesionSlider, separationSlider
 
-const WIDTH = 16
+const WIDTH = 32
 
 let boidsMat = [] // [posX: number, posY: number, velX: number, velY: number][][]
 const accelerationMat = [] //[accX: number, accY: number][][]
@@ -68,20 +68,21 @@ function flockingGpuCalc(boidsMat, acceleration) {
     const seX = (separationVel[0] / separationCount) * 10
     const seY = (separationVel[1] / separationCount) * 10
 
-    const accX = (alX + coX + seX) / 20
-    const accY = (alY + coY + seY) / 20
+    const accX = (alX + coX + seX) / 3
+    const accY = (alY + coY + seY) / 3
 
     let newVelX = velX + accX
     let newVelY = velY + accY
 
-    const mfX = posX - this.constants.mouseX
-    const mfY = posY - this.constants.mouseY
-    const md = Math.sqrt(Math.pow(mfX, 2) + Math.pow(mfY, 2))
+    // Mouse disturbing force
+    // const mfX = posX - this.constants.mouseX
+    // const mfY = posY - this.constants.mouseY
+    // const md = Math.sqrt(Math.pow(mfX, 2) + Math.pow(mfY, 2))
 
-    if (md < 200) {
-        newVelX += mfX / 20
-        newVelY += mfY / 20
-    }
+    // if (md < 200) {
+    //     newVelX += mfX / 20
+    //     newVelY += mfY / 20
+    // }
 
     const velD = Math.sqrt(Math.pow(newVelX, 2) + Math.pow(newVelY, 2))
     if (velD > this.constants.maxSpeed) {
@@ -144,12 +145,12 @@ function setup() {
 
     initMatrix()
 
-    createSpan('Alignment')
-    alignSlider = createSlider(0, 2, 1, 0.1)
-    createSpan('Cohesion')
-    cohesionSlider = createSlider(0, 2, 1, 0.1)
-    createSpan('Separation')
-    separationSlider = createSlider(0, 2, 1, 0.1)
+    // createSpan('Alignment')
+    // alignSlider = createSlider(0, 2, 1, 0.1)
+    // createSpan('Cohesion')
+    // cohesionSlider = createSlider(0, 2, 1, 0.1)
+    // createSpan('Separation')
+    // separationSlider = createSlider(0, 2, 1, 0.1)
 }
 
 function draw() {
