@@ -2,7 +2,7 @@ const flock = []
 
 let alignSlider, cohesionSlider, separationSlider
 
-const WIDTH = 32
+const WIDTH = 20
 
 let boidsMat = [] // [posX: number, posY: number, velX: number, velY: number][][]
 const accelerationMat = [] //[accX: number, accY: number][][]
@@ -28,7 +28,7 @@ function flockingGpuCalc(boidsMat, acceleration) {
             const [oPosX, oPosY, oVelX, oVelY] = boidsMat[y][x]
 
             const relativeAngle = Math.atan2(oPosY - posY, oPosX - posX)
-            if (Math.abs(eyeSight - relativeAngle) > Math.PI / 3) {
+            if (Math.abs(eyeSight - relativeAngle) > Math.PI * 0.7) {
                 continue
             }
 
@@ -49,10 +49,10 @@ function flockingGpuCalc(boidsMat, acceleration) {
             }
 
             // Separation accumulation
-            if (d < 15) {
+            if (d < 25) {
                 separationCount++
-                separationVel[0] += (posX - oPosX) / d
-                separationVel[1] += (posY - oPosY) / d
+                separationVel[0] += (posX - oPosX) / ((d / 10) * (d / 10))
+                separationVel[1] += (posY - oPosY) / ((d / 10) * (d / 10))
             }
         }
     }
@@ -63,13 +63,13 @@ function flockingGpuCalc(boidsMat, acceleration) {
 
     const alX = (alignmentVel[0] / alignmentCount) * 0.5
     const alY = (alignmentVel[1] / alignmentCount) * 0.5
-    const coX = (cohesionVel[0] / cohesionCount - posX) * 0.1
-    const coY = (cohesionVel[1] / cohesionCount - posY) * 0.1
-    const seX = (separationVel[0] / separationCount) * 10
-    const seY = (separationVel[1] / separationCount) * 10
+    const coX = (cohesionVel[0] / cohesionCount - posX) * 0.3
+    const coY = (cohesionVel[1] / cohesionCount - posY) * 0.3
+    const seX = (separationVel[0] / separationCount) * 2
+    const seY = (separationVel[1] / separationCount) * 2
 
-    const accX = (alX + coX + seX) / 3
-    const accY = (alY + coY + seY) / 3
+    const accX = (alX + coX + seX) / 10
+    const accY = (alY + coY + seY) / 10
 
     let newVelX = velX + accX
     let newVelY = velY + accY
@@ -128,8 +128,8 @@ const gpu = new GPU()
 let calcFlocking
 const drawBoid = (posX, posY, velX, velY) => {
     push()
-    noFill()
-    stroke(255)
+    fill(255)
+    noStroke()
     translate(posX, posY)
     rotate(atan2(velY, velX) + PI / 2)
     beginShape()
@@ -141,7 +141,8 @@ const drawBoid = (posX, posY, velX, velY) => {
 }
 
 function setup() {
-    createCanvas(800, 500)
+    createCanvas(windowWidth, windowHeight)
+    background(51)
 
     initMatrix()
 
@@ -158,7 +159,7 @@ function draw() {
         WIDTH: WIDTH,
         maxX: width,
         maxY: height,
-        maxSpeed: 4,
+        maxSpeed: 6,
         mouseX,
         mouseY,
     })
