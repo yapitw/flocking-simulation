@@ -61,8 +61,8 @@ function flockingGpuCalc(boidsMat, acceleration) {
     if (cohesionCount === 0) cohesionCount++
     if (separationCount === 0) separationCount++
 
-    const alX = (alignmentVel[0] / alignmentCount) * 0.7
-    const alY = (alignmentVel[1] / alignmentCount) * 0.7
+    const alX = (alignmentVel[0] / alignmentCount) * 0.5
+    const alY = (alignmentVel[1] / alignmentCount) * 0.5
     const coX = (cohesionVel[0] / cohesionCount - posX) * 0.1
     const coY = (cohesionVel[1] / cohesionCount - posY) * 0.1
     const seX = (separationVel[0] / separationCount) * 10
